@@ -1,0 +1,8 @@
+{
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+    },
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+}
