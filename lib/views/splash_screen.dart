@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tumdum_delivery_app/navigation/routes.dart';
+import 'package:tumdum_delivery_app/services/location_services.dart';
 
 import '../gen/assets.gen.dart';
 
@@ -13,8 +14,10 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 2)).then(
-        (_) => Navigator.of(context).pushNamed(RouteGenerator.signInPage));
+    Future.delayed(const Duration(seconds: 2)).then((_) {
+      LocationServices.locationPermission();
+      Navigator.of(context).pushNamed(RouteGenerator.signInPage);
+    });
     super.initState();
   }
 

@@ -4,6 +4,7 @@ import 'package:tumdum_delivery_app/gen/assets.gen.dart';
 import 'package:tumdum_delivery_app/navigation/routes.dart';
 import 'package:tumdum_delivery_app/util/string_constants.dart';
 import 'package:tumdum_delivery_app/widget/button_widget.dart';
+import 'package:tumdum_delivery_app/widget/checkbox_widget.dart';
 import 'package:tumdum_delivery_app/widget/text_field.dart';
 
 import '../util/style.dart';
@@ -46,7 +47,7 @@ class LoginScreen extends StatelessWidget {
                 onSaved: (p0) => phoneNumber = p0 ?? "",
                 hintText: StringConstants.enterNumber,
               ),
-              CheckboxListTile(
+              CheckboxWidget(
                   title: RichText(
                       text: TextSpan(
                           style: GoogleFonts.plusJakartaSans(
@@ -62,7 +63,6 @@ class LoginScreen extends StatelessWidget {
                             text: StringConstants.termsText4,
                             style: TextStyle(color: Colors.blue))
                       ])),
-                  value: false,
                   onChanged: (val) {}),
               ButtonWidget(
                   onPressed: () =>

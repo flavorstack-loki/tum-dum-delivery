@@ -36,8 +36,17 @@
 	   </array>
 	<key>NSCameraUsageDescription</key>
 	<string>Allow access to your camera to capture photos</string>   
-		<key>NSPhotoLibraryUsageDescription</key>
+	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Allow access to your gallery to upload photos</string>
+	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
+	<dict>
+		<key>TemporaryPreciseAccuracy</key>
+		<string>To display and track location</string>
+	</dict>
+    <key>NSLocationWhenInUseUsageDescription</key>
+	<string>To display and track location</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>To display and track location</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
