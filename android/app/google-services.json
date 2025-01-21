@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:796930731185:android:af66a8f212c1766506c690",
+        "android_client_info": {
+          "package_name": "com.example.tumdum_delivery_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiG7zw7fWgZl8icc9yPLGNLtzcELThSuI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:796930731185:android:c1b8ba84ce831f9d06c690",
         "android_client_info": {
           "package_name": "com.tumdum_delivery.app"

@@ -8,6 +8,8 @@ class StringConstants {
   static const termsText3 = "and ";
   static const termsText4 = "Privacy Policy";
   static const sendotpText = "Send OTP";
+  static const noAccount = "Don't have an account?";
+  static const register = "Register";
   static const otpVerifyText = "Enter OTP to verify";
   static const otpSentText = "We have sent a  verification code to";
   static const verifyOtpText = "Verify OTP";

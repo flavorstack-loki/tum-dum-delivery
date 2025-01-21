@@ -18,12 +18,7 @@ class FbAuthService {
     await _auth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
       verificationCompleted: (phoneAuthCredential) {},
-      verificationFailed: (FirebaseAuthException e) {
-        onVerificationFailed();
-        print(e.message);
-        print(e);
-        MessageService.showErrorMessage("Error sending OTP.Please try again.");
-      },
+      verificationFailed: (FirebaseAuthException e) => onVerificationFailed(),
       codeSent: (String verificationId, int? resendToken) =>
           codeSent(verificationId),
       codeAutoRetrievalTimeout: (String verificationId) {},

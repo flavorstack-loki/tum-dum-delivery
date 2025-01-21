@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBiG7zw7fWgZl8icc9yPLGNLtzcELThSuI',
-    appId: '1:796930731185:android:c1b8ba84ce831f9d06c690',
+    appId: '1:796930731185:android:af66a8f212c1766506c690',
     messagingSenderId: '796930731185',
     projectId: 'tumdum-delivery-app',
     storageBucket: 'tumdum-delivery-app.firebasestorage.app',
@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'tumdum-delivery-app.firebasestorage.app',
     iosBundleId: 'com.example.tumdumDeliveryApp',
   );
+
 }

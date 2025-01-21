@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,11 +8,14 @@ import 'package:tumdum_delivery_app/util/string_constants.dart';
 import 'package:tumdum_delivery_app/util/style.dart';
 import 'package:tumdum_delivery_app/widget/button_widget.dart';
 
+import '../services/fb_auth_service.dart';
+
 class OtpScreen extends StatelessWidget {
   const OtpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final verificationId = ModalRoute.of(context)?.settings.arguments as String;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -50,30 +54,26 @@ class OtpScreen extends StatelessWidget {
                 focusedBorderColor: const Color(0xff78192D),
                 borderColor: const Color(0xff78192D),
                 borderRadius: BorderRadius.circular(10),
-
-                //set to true to show as box or false to show as dash
                 showFieldAsBox: true,
-                //runs when a code is typed in
-                onCodeChanged: (String code) {
-                  //handle validation or checks here
-                },
-                //runs when every textfield is filled
-                onSubmit: (String verificationCode) {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: const Text("Verification Code"),
-                          content: Text('Code entered is $verificationCode'),
-                        );
-                      });
+                onCodeChanged: (String code) {},
+                onSubmit: (String verificationCode) async {
+                  final user = await FbAuthService.signInWithPhoneNumber(
+                      credential: PhoneAuthProvider.credential(
+                          verificationId: verificationId,
+                          smsCode: verificationCode));
+                  if (user != null) {
+                    Navigator.of(context)
+                        .pushReplacementNamed(RouteGenerator.homePage);
+                  }
                 }),
             const SizedBox(
               height: 10,
             ),
             ButtonWidget(
-                onPressed: () => Navigator.of(context)
-                    .pushNamed(RouteGenerator.personalInfoPage),
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed(RouteGenerator.personalInfoPage);
+                },
                 text: "Verify OTP")
           ],
         ),

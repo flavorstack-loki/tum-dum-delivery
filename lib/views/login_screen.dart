@@ -1,12 +1,17 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+
 import 'package:tumdum_delivery_app/gen/assets.gen.dart';
 import 'package:tumdum_delivery_app/navigation/routes.dart';
 import 'package:tumdum_delivery_app/util/string_constants.dart';
 import 'package:tumdum_delivery_app/widget/button_widget.dart';
-import 'package:tumdum_delivery_app/widget/checkbox_widget.dart';
 import 'package:tumdum_delivery_app/widget/text_field.dart';
 
+import '../services/fb_auth_service.dart';
+import '../services/message_service.dart';
 import '../util/style.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -17,6 +22,7 @@ class LoginScreen extends StatelessWidget {
     final fKey = GlobalKey<FormState>();
     String phoneNumber = "";
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         toolbarHeight: 300,
         automaticallyImplyLeading: false,
@@ -47,27 +53,67 @@ class LoginScreen extends StatelessWidget {
                 onSaved: (p0) => phoneNumber = p0 ?? "",
                 hintText: StringConstants.enterNumber,
               ),
-              CheckboxWidget(
-                  title: RichText(
-                      text: TextSpan(
-                          style: GoogleFonts.plusJakartaSans(
-                            color: Colors.black,
-                          ),
-                          text: StringConstants.termsText1,
-                          children: const [
-                        TextSpan(
-                            text: StringConstants.termsText2,
-                            style: TextStyle(color: Colors.blue)),
-                        TextSpan(text: StringConstants.termsText3),
-                        TextSpan(
-                            text: StringConstants.termsText4,
-                            style: TextStyle(color: Colors.blue))
-                      ])),
-                  onChanged: (val) {}),
+              RichText(
+                  text: TextSpan(
+                      style: GoogleFonts.plusJakartaSans(
+                        color: Colors.black,
+                      ),
+                      text: StringConstants.termsText1,
+                      children: const [
+                    TextSpan(
+                        text: StringConstants.termsText2,
+                        style: TextStyle(color: Colors.blue)),
+                    TextSpan(text: StringConstants.termsText3),
+                    TextSpan(
+                        text: StringConstants.termsText4,
+                        style: TextStyle(color: Colors.blue))
+                  ])),
               ButtonWidget(
-                  onPressed: () =>
-                      Navigator.of(context).pushNamed(RouteGenerator.otpPage),
-                  text: StringConstants.sendotpText)
+                  onPressed: () async {
+                    FToast().init(context);
+                    final fState = fKey.currentState;
+                    if (fState!.validate()) {
+                      context.loaderOverlay.show();
+                      fState.save();
+                      await FbAuthService.verifyPhoneNumber(
+                          onVerificationFailed: () {
+                            context.loaderOverlay.hide();
+                            MessageService.showErrorMessage(
+                                "Error sending OTP.Please try again.");
+                          },
+                          phoneNumber: phoneNumber,
+                          codeSent: (verificationId) {
+                            context.loaderOverlay.hide();
+                            MessageService.showSuccessMessage(
+                                "OTP sent successfully");
+                            Navigator.of(context).pushNamed(
+                                RouteGenerator.otpPage,
+                                arguments: verificationId);
+                          });
+                    }
+                  },
+                  text: StringConstants.sendotpText),
+              Align(
+                alignment: Alignment.center,
+                child: RichText(
+                  text: TextSpan(
+                      text: StringConstants.noAccount,
+                      style: GoogleFonts.nunito(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600),
+                      children: [
+                        TextSpan(
+                            text: StringConstants.register.padLeft(9),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () => Navigator.of(context)
+                                  .pushNamed(RouteGenerator.infoPage),
+                            style: const TextStyle(
+                                color: Color(0xff78192D),
+                                decoration: TextDecoration.underline))
+                      ]),
+                ),
+              ),
             ],
           ),
         ),
