@@ -1,4 +1,5 @@
 import 'package:location/location.dart';
+import 'package:permission_handler/permission_handler.dart' as ph;
 
 class LocationServices {
   static final Location _location = Location();
@@ -7,11 +8,19 @@ class LocationServices {
     if (!serviceEnabled) {
       serviceEnabled = await _location.requestService();
     }
-
-    PermissionStatus permissionGranted = await _location.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await _location.requestPermission();
+    PermissionStatus permission = await _location.hasPermission();
+    if (permission == PermissionStatus.denied) {
+      permission = await _location.requestPermission();
     }
-    return serviceEnabled && permissionGranted == PermissionStatus.granted;
+    if (permission == PermissionStatus.deniedForever) {
+      await ph.openAppSettings();
+    }
+
+    return serviceEnabled &&
+        permission != PermissionStatus.denied &&
+        permission != PermissionStatus.deniedForever;
   }
+
+  static Future<LocationData> getCurrentLocation() async =>
+      await _location.getLocation();
 }

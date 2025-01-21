@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tumdum_delivery_app/views/home_screen.dart';
+import 'package:tumdum_delivery_app/views/location_update_screen.dart';
 import 'package:tumdum_delivery_app/views/login_screen.dart';
 import 'package:tumdum_delivery_app/views/personal_info_screen.dart';
 
@@ -14,6 +15,8 @@ class RouteGenerator {
   static const String infoPage = "/info";
   static const String homePage = "/home";
   static const String personalInfoPage = "/personalInfo";
+  static const String restaurantLocationUpdatePage =
+      "/restaurantLocationUpdate";
   static Route generateRoute(RouteSettings settings) {
     return switch (settings.name) {
       splashPage => MaterialPageRoute(
@@ -29,6 +32,9 @@ class RouteGenerator {
           settings: settings, builder: (context) => const PersonalInfoScreen()),
       homePage => MaterialPageRoute(
           settings: settings, builder: (context) => const HomeScreen()),
+      restaurantLocationUpdatePage => MaterialPageRoute(
+          settings: settings,
+          builder: (context) => const LocationUpdateScreen()),
       _ => throw const FormatException("Route not found"),
     };
   }

@@ -4,12 +4,36 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:tumdum_delivery_app/services/fb_db_services.dart';
 import 'package:tumdum_delivery_app/services/message_service.dart';
+
+import '../model/resturant.dart';
+import '../util/string_constants.dart';
 
 class FbAuthService {
   static final _auth = FirebaseAuth.instance;
   static Stream<User?> get fUser => _auth.authStateChanges();
   static User? get currentUser => _auth.currentUser;
+
+  static Future<Restaurant?> signInWithEmailAndPassword(
+      Restaurant restaurant) async {
+    User? fuser;
+    try {
+      fuser = (await _auth.signInWithEmailAndPassword(
+        email: restaurant.resEmail!,
+        password: restaurant.pass!,
+      ))
+          .user;
+
+      final user = await FbDbServices.getRestaurantByUid(fuser?.email);
+
+      return user;
+    } on FirebaseAuthException catch (e) {
+      MessageService.showErrorMessage(
+          StringConstants.getMessageFromErrorCode(e.code));
+    }
+    return null;
+  }
 
   static Future<void> verifyPhoneNumber(
       {required String phoneNumber,
