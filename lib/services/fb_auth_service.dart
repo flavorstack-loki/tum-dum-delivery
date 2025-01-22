@@ -24,11 +24,18 @@ class FbAuthService {
         password: restaurant.pass!,
       ))
           .user;
-
+      print(restaurant.resEmail);
       final user = await FbDbServices.getRestaurantByUid(fuser?.email);
+      print(fuser?.email);
+      print(user?.resEmail);
+      if (user == null) {
+        MessageService.showErrorMessage(
+            "No Restaurant found with given credential.Please register your account.");
+      }
 
       return user;
     } on FirebaseAuthException catch (e) {
+      print(e.code);
       MessageService.showErrorMessage(
           StringConstants.getMessageFromErrorCode(e.code));
     }

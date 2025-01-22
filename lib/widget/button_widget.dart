@@ -7,7 +7,7 @@ class ButtonWidget extends StatelessWidget {
   final String text;
   @override
   Widget build(BuildContext context) {
-    final wh = MediaQuery.of(context).size.width;
+    final wh = MediaQuery.sizeOf(context).width;
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
           elevation: 0,

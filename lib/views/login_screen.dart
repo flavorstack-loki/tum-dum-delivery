@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 
 import 'package:tumdum_delivery_app/gen/assets.gen.dart';
 import 'package:tumdum_delivery_app/model/resturant.dart';
@@ -75,13 +74,13 @@ class LoginScreen extends StatelessWidget {
                     FToast().init(context);
                     final fState = fKey.currentState;
                     if (fState!.validate()) {
-                      context.loaderOverlay.show();
+                      //  context.loaderOverlay.show();
 
                       fState.save();
                       final restaurant =
                           await FbAuthService.signInWithEmailAndPassword(res);
                       if (context.mounted) {
-                        context.loaderOverlay.hide();
+                        //   context.loaderOverlay.hide();
                         if (restaurant != null) {
                           Navigator.of(context).pushReplacementNamed(
                               RouteGenerator.restaurantLocationUpdatePage,

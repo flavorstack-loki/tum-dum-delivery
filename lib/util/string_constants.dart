@@ -46,6 +46,7 @@ class StringConstants {
 
       case "ERROR_USER_NOT_FOUND":
       case "user-not-found":
+      case "invalid-credential":
         return "No account exits with the given credentials.Please register.";
 
       case "ERROR_USER_DISABLED":

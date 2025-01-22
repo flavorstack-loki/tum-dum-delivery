@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -66,4 +63,12 @@ class DefaultFirebaseOptions {
     iosBundleId: 'com.example.tumdumDeliveryApp',
   );
 
+  static const FirebaseOptions web = FirebaseOptions(
+      apiKey: "AIzaSyDZgfpJ4n2NObcRfRTbPdIp6JTXonvOwEE",
+      authDomain: "tumdum-delivery-app.firebaseapp.com",
+      projectId: "tumdum-delivery-app",
+      storageBucket: "tumdum-delivery-app.firebasestorage.app",
+      messagingSenderId: "796930731185",
+      appId: "1:796930731185:web:caef20765535b7b506c690",
+      measurementId: "G-2PWYBTXXME");
 }

@@ -3,7 +3,6 @@ import 'package:animated_marker/animated_marker.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -14,8 +13,6 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   final Completer<GoogleMapController> _controller = Completer();
-
-  final Location _location = Location();
 
   final LatLng _agentLocation = const LatLng(
     18.850604,

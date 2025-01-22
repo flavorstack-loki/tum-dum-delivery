@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:tumdum_delivery_app/model/resturant.dart';
 import 'package:tumdum_delivery_app/services/fb_db_services.dart';
 import 'package:tumdum_delivery_app/widget/button_widget.dart';
@@ -59,32 +58,30 @@ class LocationUpdateScreen extends StatelessWidget {
                 child: ButtonWidget(
                     onPressed: () async {
                       FToast().init(context);
-                      context.loaderOverlay.show();
+                      //   context.loaderOverlay.show();
                       final bool locationAllowed =
                           await LocationServices.locationPermission();
-                      Future.delayed(const Duration(seconds: 1))
-                          .then((_) async {
-                        if (locationAllowed) {
-                          final location =
-                              await LocationServices.getCurrentLocation();
-                          await FbDbServices.updateRestaurantDetail(restaurant
-                                ..lat = location.latitude
-                                ..lng = location.longitude)
-                              .then((_) {
-                            if (context.mounted) {
-                              context.loaderOverlay.hide();
-                              MessageService.showSuccessMessage(
-                                  "Restaurant location updated successfully");
-                            }
-                          });
-                        } else {
+
+                      if (locationAllowed) {
+                        final location =
+                            await LocationServices.getCurrentLocation();
+                        await FbDbServices.updateRestaurantDetail(restaurant
+                              ..lat = location.latitude
+                              ..lng = location.longitude)
+                            .then((_) {
                           if (context.mounted) {
-                            context.loaderOverlay.hide();
-                            MessageService.showErrorMessage(
-                                "Please enable location permisson to update your Restaurant Location.");
+                            //     context.loaderOverlay.hide();
+                            MessageService.showSuccessMessage(
+                                "Restaurant location updated successfully");
                           }
+                        });
+                      } else {
+                        if (context.mounted) {
+                          //   context.loaderOverlay.hide();
+                          MessageService.showErrorMessage(
+                              "Please enable location permisson to update your Restaurant Location.");
                         }
-                      });
+                      }
                     },
                     text: "Update Restaurant Location"),
               ),
