@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../util/media_utils.dart';
+
 class MediaSourceWidget extends StatelessWidget {
   const MediaSourceWidget(this.ctx, {super.key});
   final BuildContext ctx;
@@ -19,12 +21,9 @@ class MediaSourceWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TextButton.icon(
-              onPressed: () {
-                //       ctx.pop(MediaSource.camera);
-              },
+              onPressed: () => Navigator.of(ctx).pop(MediaSource.camera),
               icon: const Icon(
                 Icons.camera_alt,
-                //   color: ColorUtil.buttonBgColor,
               ),
               label: const Text(
                 'Camera',
@@ -35,12 +34,9 @@ class MediaSourceWidget extends StatelessWidget {
               ),
             ),
             TextButton.icon(
-              onPressed: () {
-                //      ctx.pop(MediaSource.gallery);
-              },
+              onPressed: () => Navigator.of(ctx).pop(MediaSource.gallery),
               icon: const Icon(
                 Icons.camera,
-                //      color: ColorUtil.buttonBgColor,
               ),
               label: const Text(
                 'Gallery',

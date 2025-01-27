@@ -4,17 +4,18 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class DateTimeUtil {
   static final now = DateTime.now();
   static final time = TimeOfDay(hour: now.hour, minute: now.minute);
-  static Future<DateTime?> selectDate(BuildContext context,
-      {DateTime? firstDate}) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: now,
-        firstDate: firstDate ?? now,
-        lastDate: DateTime(2050),
-        switchToInputEntryModeIcon: const Icon(FontAwesomeIcons.penToSquare),
-        switchToCalendarEntryModeIcon: const Icon(FontAwesomeIcons.calendarDay),
-        builder: (BuildContext context, Widget? child) {
-          return Theme(
+  static Future<DateTime?> selectDate(
+    BuildContext context,
+  ) async =>
+      await showDatePicker(
+          context: context,
+          initialDate: now,
+          firstDate: DateTime(1950),
+          lastDate: now,
+          switchToInputEntryModeIcon: const Icon(FontAwesomeIcons.penToSquare),
+          switchToCalendarEntryModeIcon:
+              const Icon(FontAwesomeIcons.calendarDay),
+          builder: (BuildContext context, Widget? child) => Theme(
               data: ThemeData.dark(useMaterial3: false)
                   .copyWith(
                     textTheme: const TextTheme(
@@ -53,11 +54,7 @@ class DateTimeUtil {
                       //     backgroundColor: ColorUtil.buttonBgColor
                     ),
                   ),
-              child: child!);
-        });
-
-    return picked;
-  }
+              child: child!));
 
   static Future selectTime(BuildContext context) async {
     final picked = await showTimePicker(

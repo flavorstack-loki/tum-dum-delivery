@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../util/color_util.dart';
+import '../util/string_constants.dart';
 
 class ButtonWidget extends StatelessWidget {
   const ButtonWidget({required this.onPressed, required this.text, super.key});
-  final Function() onPressed;
+  final VoidCallback onPressed;
 
   final String text;
   @override
@@ -11,7 +15,7 @@ class ButtonWidget extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
           elevation: 0,
-          backgroundColor: const Color(0xff78192D),
+          backgroundColor: ColorUtil.primaryColor,
           fixedSize: Size(wh, 60),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
@@ -21,7 +25,7 @@ class ButtonWidget extends StatelessWidget {
           text,
           maxLines: 1,
           style: const TextStyle(
-              color: Color(0xffF8E0C6),
+              color: ColorUtil.secondaryColor,
               fontSize: 25,
               fontWeight: FontWeight.w600),
         ),
@@ -39,7 +43,7 @@ class ShortButtonWidget extends StatelessWidget {
       this.minimumSize,
       this.textColor,
       super.key});
-  final Function() onPressed;
+  final VoidCallback onPressed;
   final double? elevation;
   final Color? textColor, buttonColor;
   final Size? minimumSize;
@@ -60,6 +64,39 @@ class ShortButtonWidget extends StatelessWidget {
               color: textColor ?? Colors.black,
               fontSize: 18,
               fontWeight: FontWeight.bold),
+        ));
+  }
+}
+
+class ImageUploadButtonWidget extends StatelessWidget {
+  const ImageUploadButtonWidget(
+      {required this.onPressed, required this.uploaded, super.key});
+  final VoidCallback onPressed;
+  final bool uploaded;
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.all(10),
+            shape: RoundedRectangleBorder(
+              side: const BorderSide(color: ColorUtil.primaryColor, width: 2),
+              borderRadius: BorderRadius.circular(10),
+            )),
+        onPressed: onPressed,
+        child: Row(
+          spacing: 10,
+          children: [
+            Icon(
+              uploaded ? FontAwesomeIcons.trashCan : FontAwesomeIcons.camera,
+              size: 25,
+            ),
+            Text(
+              uploaded
+                  ? StringConstants.deleteText
+                  : StringConstants.uploadPicText,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            )
+          ],
         ));
   }
 }

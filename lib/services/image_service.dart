@@ -6,12 +6,12 @@ import 'package:tumdum_delivery_app/util/media_utils.dart';
 import '../widget/media_source.dart';
 
 class ImageService {
-  static Future selectImage(BuildContext context) async {
+  static Future<String?> selectImage(BuildContext context) async {
     final MediaSource? imageSource = await (showModalBottomSheet(
       context: context,
       builder: (ctx) => MediaSourceWidget(ctx),
     )) as MediaSource?;
-    if (imageSource == null) return;
+    if (imageSource == null) return null;
     try {
       context.loaderOverlay.show();
       final temp = await MediaUtils.pickMedia(imageSource);
@@ -22,6 +22,7 @@ class ImageService {
       print(e.toString());
       MessageService.showErrorMessage("Image uploading failed!");
     }
+    return null;
   }
 
   static Future<List<String>?> selectMultipleImage(BuildContext context) async {

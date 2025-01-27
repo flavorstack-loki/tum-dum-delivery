@@ -4,6 +4,7 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tumdum_delivery_app/navigation/routes.dart';
+import 'package:tumdum_delivery_app/util/color_util.dart';
 import 'package:tumdum_delivery_app/util/string_constants.dart';
 import 'package:tumdum_delivery_app/util/style.dart';
 import 'package:tumdum_delivery_app/widget/button_widget.dart';
@@ -40,19 +41,21 @@ class OtpScreen extends StatelessWidget {
                       color: Colors.black,
                       fontSize: 16,
                       fontWeight: FontWeight.w400),
-                  children: const [TextSpan(text: "\n +919888897777")]),
+                  children: const [
+                    TextSpan(text: "\n${StringConstants.mobileHintText}")
+                  ]),
             ),
             const Text(
-              "Enter OTP",
+              StringConstants.enterOtpText,
               style: TextStyle(
                   fontSize: 18,
-                  color: Color(0xff78192D),
+                  color: ColorUtil.primaryColor,
                   fontWeight: FontWeight.w700),
             ),
             OtpTextField(
                 numberOfFields: 6,
-                focusedBorderColor: const Color(0xff78192D),
-                borderColor: const Color(0xff78192D),
+                focusedBorderColor: ColorUtil.primaryColor,
+                borderColor: ColorUtil.primaryColor,
                 borderRadius: BorderRadius.circular(10),
                 showFieldAsBox: true,
                 onCodeChanged: (String code) {},
@@ -74,7 +77,7 @@ class OtpScreen extends StatelessWidget {
                   Navigator.of(context)
                       .pushNamed(RouteGenerator.personalInfoPage);
                 },
-                text: "Verify OTP")
+                text: StringConstants.verifyOtpText)
           ],
         ),
       ),

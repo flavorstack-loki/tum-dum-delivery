@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tumdum_delivery_app/util/color_util.dart';
 
 class BottomNavWidget extends StatefulWidget {
   const BottomNavWidget({required this.onTap, super.key});
@@ -20,11 +21,11 @@ class _BottomNavWidgetState extends State<BottomNavWidget> {
         selectedLabelStyle: GoogleFonts.plusJakartaSans(
             fontWeight: FontWeight.w500,
             fontSize: 14,
-            color: const Color(0xff78192D)),
+            color: ColorUtil.primaryColor),
         unselectedLabelStyle: GoogleFonts.plusJakartaSans(
             fontSize: 14, fontWeight: FontWeight.w500, color: Colors.blueGrey),
         unselectedItemColor: Colors.blueGrey,
-        selectedItemColor: const Color(0xff78192D),
+        selectedItemColor: ColorUtil.primaryColor,
         onTap: (value) {
           setState(() => index = value);
           widget.onTap(value);

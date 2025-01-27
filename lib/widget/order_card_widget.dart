@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tumdum_delivery_app/gen/assets.gen.dart';
+import 'package:tumdum_delivery_app/util/color_util.dart';
 import 'package:tumdum_delivery_app/util/style.dart';
 import 'package:tumdum_delivery_app/widget/button_widget.dart';
 
@@ -29,7 +30,7 @@ class OrderCardWidget extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                    color: const Color(0xffF8E0C6),
+                    color: ColorUtil.secondaryColor,
                     borderRadius: BorderRadius.circular(20)),
                 child: const Text(
                   "Pickup Pending",
@@ -54,7 +55,7 @@ class OrderCardWidget extends StatelessWidget {
                       const VisualDensity(vertical: -4, horizontal: -4),
                   onPressed: () {},
                   icon: const CircleAvatar(
-                      backgroundColor: Color(0xffF8E0C6),
+                      backgroundColor: ColorUtil.secondaryColor,
                       child: Icon(
                         FontAwesomeIcons.phone,
                         size: 20,
@@ -79,7 +80,7 @@ class OrderCardWidget extends StatelessWidget {
                           const VisualDensity(vertical: -4, horizontal: -4),
                       onPressed: () {},
                       icon: const CircleAvatar(
-                          backgroundColor: Color(0xffF8E0C6),
+                          backgroundColor: ColorUtil.secondaryColor,
                           child: Icon(
                             FontAwesomeIcons.phone,
                             size: 20,
@@ -89,7 +90,7 @@ class OrderCardWidget extends StatelessWidget {
                           const VisualDensity(vertical: -4, horizontal: -4),
                       onPressed: () {},
                       icon: const CircleAvatar(
-                          backgroundColor: Color(0xffF8E0C6),
+                          backgroundColor: ColorUtil.secondaryColor,
                           child: Icon(
                             FontAwesomeIcons.locationArrow,
                             size: 20,
@@ -116,7 +117,7 @@ class OrderCardWidget extends StatelessWidget {
                           const VisualDensity(vertical: -4, horizontal: -4),
                       onPressed: () {},
                       icon: const CircleAvatar(
-                          backgroundColor: Color(0xffF8E0C6),
+                          backgroundColor: ColorUtil.secondaryColor,
                           child: Icon(
                             FontAwesomeIcons.phone,
                             size: 20,
@@ -126,7 +127,7 @@ class OrderCardWidget extends StatelessWidget {
                           const VisualDensity(vertical: -4, horizontal: -4),
                       onPressed: () {},
                       icon: const CircleAvatar(
-                          backgroundColor: Color(0xffF8E0C6),
+                          backgroundColor: ColorUtil.secondaryColor,
                           child: Icon(
                             FontAwesomeIcons.locationArrow,
                             size: 20,

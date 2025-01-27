@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -79,13 +78,13 @@ class LoginScreen extends StatelessWidget {
                           onVerificationFailed: () {
                             context.loaderOverlay.hide();
                             MessageService.showErrorMessage(
-                                "Error sending OTP.Please try again.");
+                                StringConstants.otpSuccessText);
                           },
                           phoneNumber: phoneNumber,
                           codeSent: (verificationId) {
                             context.loaderOverlay.hide();
                             MessageService.showSuccessMessage(
-                                "OTP sent successfully");
+                                StringConstants.otpErrorText);
                             Navigator.of(context).pushNamed(
                                 RouteGenerator.otpPage,
                                 arguments: verificationId);
@@ -93,27 +92,6 @@ class LoginScreen extends StatelessWidget {
                     }
                   },
                   text: StringConstants.sendotpText),
-              Align(
-                alignment: Alignment.center,
-                child: RichText(
-                  text: TextSpan(
-                      text: StringConstants.noAccount,
-                      style: GoogleFonts.nunito(
-                          fontSize: 18,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600),
-                      children: [
-                        TextSpan(
-                            text: StringConstants.register.padLeft(9),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () => Navigator.of(context)
-                                  .pushNamed(RouteGenerator.infoPage),
-                            style: const TextStyle(
-                                color: Color(0xff78192D),
-                                decoration: TextDecoration.underline))
-                      ]),
-                ),
-              ),
             ],
           ),
         ),
