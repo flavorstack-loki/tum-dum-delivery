@@ -42,18 +42,24 @@ export const processMenuItems = onCall(async (request) => {
     }
 
     const batch = firestore.batch();
-    const restaurantRef = firestore.collection("registeredRestaurant").doc(restaurantId);
+    const menuCollection= firestore.collection("restaurantMenu");
 
     jsonData.forEach((menuItem) => {
-      const menuRef = restaurantRef.collection("menu").doc();
+      const menuRef =menuCollection.doc();
       menuItem.id = menuRef.id; // Assign document ID to the id field
       menuItem.resId=restaurantId;
       batch.set(menuRef, menuItem);
     });
 
     await batch.commit();
-
     console.log("Menu items processed and uploaded successfully.");
+    // Delete the file from Cloud Storage after processing
+    await file.delete();
+    console.log("File deleted successfully from Cloud Storage:", filePath);
+
+    // Delete the temporary file after processing
+    await fs.unlink(tempFilePath);
+    console.log("Temporary file deleted successfully:", tempFilePath);
     return {success: true, message: "Menu items processed and uploaded successfully."};
   } catch (error) {
     console.error("Error processing menu items:", error);
