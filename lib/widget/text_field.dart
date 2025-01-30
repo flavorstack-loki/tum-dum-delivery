@@ -18,6 +18,7 @@ class TextFieldWidget extends StatelessWidget {
       this.dropdownItems,
       this.isAadhaar,
       this.isPan,
+      this.maxLines,
       this.onChanged,
       this.isEmail,
       this.suffixIcon,
@@ -43,7 +44,7 @@ class TextFieldWidget extends StatelessWidget {
   final String? Function(String? str)? validator;
   final Widget? suffixIcon;
   final Function()? onObscureIconTap;
-
+  final int? maxLines;
   @override
   Widget build(BuildContext context) {
     return dropdownItems != null
@@ -79,6 +80,7 @@ class TextFieldWidget extends StatelessWidget {
             ),
             onChanged: onChanged ?? onSaved)
         : TextFormField(
+            maxLines: maxLines,
             textAlignVertical: TextAlignVertical.top,
             style: const TextStyle(
               fontSize: 16.5,

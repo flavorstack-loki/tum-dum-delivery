@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 
@@ -78,19 +77,5 @@ class MediaUtils {
       rethrow;
     }
     return null;
-  }
-
-  static Future<(Uint8List?, PlatformFile?)> selectJsonFile() async {
-    // Pick the JSON file from local storage
-    FilePickerResult? result = await FilePicker.platform
-        .pickFiles(type: FileType.custom, allowedExtensions: ['json']);
-
-    if (result != null) {
-      PlatformFile file = result.files.single;
-      Uint8List jsonFile = file.bytes!;
-
-      return (jsonFile, file);
-    }
-    return (null, null);
   }
 }
