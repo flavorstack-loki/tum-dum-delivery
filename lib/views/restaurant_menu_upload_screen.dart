@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:tumdum_delivery_app/model/restaurant.dart';
@@ -67,6 +68,9 @@ class _RestaurantMenuUploadScreenState
                   final (jsonFile, file) = await MediaUtils.selectJsonFile();
 
                   if (jsonFile != null && file != null) {
+                    EasyLoading.show(
+                        status: 'Loading...',
+                        maskType: EasyLoadingMaskType.black);
                     final res = await FbDbService.uploadFile(
                         jsonFile: jsonFile, file: file);
 
@@ -74,13 +78,16 @@ class _RestaurantMenuUploadScreenState
                       final res2 = await FbDbService.triggerCloudFunction(
                           file.name, restaurant!.restaurantId!);
                       if (res2 ?? false) {
+                        EasyLoading.dismiss();
                         MessageService.showSuccessMessage(
                             "File uploaded successfully");
                       } else {
+                        EasyLoading.dismiss();
                         MessageService.showErrorMessage(
                             "Error while uploading file");
                       }
                     }
+                    EasyLoading.dismiss();
                   }
                 },
                 text: "Pick File"),
