@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     Future.delayed(const Duration(seconds: 2)).then((_) {
       LocationServices.locationPermission();
-      Navigator.of(context).pushNamed(RouteGenerator.personalInfoPage);
+      Navigator.of(context).pushNamed(RouteGenerator.signInPage);
     });
     super.initState();
   }

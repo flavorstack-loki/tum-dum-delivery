@@ -18,7 +18,10 @@ class FbAuthService {
     await _auth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
       verificationCompleted: (phoneAuthCredential) {},
-      verificationFailed: (FirebaseAuthException e) => onVerificationFailed(),
+      verificationFailed: (FirebaseAuthException e) {
+        debugPrint(e.message);
+        onVerificationFailed();
+      },
       codeSent: (String verificationId, int? resendToken) =>
           codeSent(verificationId),
       codeAutoRetrievalTimeout: (String verificationId) {},

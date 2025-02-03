@@ -78,13 +78,13 @@ class LoginScreen extends StatelessWidget {
                           onVerificationFailed: () {
                             context.loaderOverlay.hide();
                             MessageService.showErrorMessage(
-                                StringConstants.otpSuccessText);
+                                StringConstants.otpErrorText);
                           },
-                          phoneNumber: phoneNumber,
+                          phoneNumber: "+91$phoneNumber",
                           codeSent: (verificationId) {
                             context.loaderOverlay.hide();
                             MessageService.showSuccessMessage(
-                                StringConstants.otpErrorText);
+                                StringConstants.otpSuccessText);
                             Navigator.of(context).pushNamed(
                                 RouteGenerator.otpPage,
                                 arguments: verificationId);
