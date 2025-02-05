@@ -71,34 +71,53 @@ class _RestaurantMenuUploadScreenState
                       );
                     }).toList(),
                     onChanged: (value) => setState(() => restaurant = value!)),
-              Center(
-                child: ButtonWidget(
-                    onPressed: () async {
-                      FToast().init(context);
-                      final fState = _fKey.currentState;
-                      if (fState!.validate()) {
-                        EasyLoading.show(
-                            status: 'Loading...',
-                            maskType: EasyLoadingMaskType.black);
+              if (restaurant != null) ...[
+                Center(
+                  child: ButtonWidget(
+                      onPressed: () async {
+                        FToast().init(context);
+                        final fState = _fKey.currentState;
+                        if (fState!.validate()) {
+                          EasyLoading.show(
+                              status: 'Loading...',
+                              maskType: EasyLoadingMaskType.black);
 
-                        final res2 = await FbDbService.triggerCloudFunction(
-                            menuJson: _menuController.text,
-                            restaurantId: restaurant!.restaurantId!);
-                        if (res2 ?? false) {
+                          final res = await FbDbService.triggerCloudFunction(
+                              menuJson: _menuController.text,
+                              restaurantId: restaurant!.restaurantId!);
                           EasyLoading.dismiss();
-                          MessageService.showSuccessMessage(
-                              "File uploaded successfully");
-                        } else {
-                          EasyLoading.dismiss();
-                          MessageService.showErrorMessage(
-                              "Error while uploading file");
+                          if (res ?? false) {
+                            MessageService.showSuccessMessage(
+                                "File uploaded successfully");
+                          } else {
+                            MessageService.showErrorMessage(
+                                "Error while uploading file");
+                          }
                         }
+                      },
+                      text: "Upload Menu"),
+                ),
+                Center(
+                  child: ButtonWidget(
+                      onPressed: () async {
+                        FToast().init(context);
+                        final fState = _fKey.currentState;
+                        if (fState!.validate()) {
+                          EasyLoading.show(
+                              status: 'Loading...',
+                              maskType: EasyLoadingMaskType.black);
 
-                        EasyLoading.dismiss();
-                      }
-                    },
-                    text: "Upload Menu"),
-              ),
+                          await FbDbService.deleteMenuItemDocuments(
+                              resId: restaurant!.restaurantId!);
+                          EasyLoading.dismiss();
+
+                          MessageService.showSuccessMessage(
+                              "All menu item of ${restaurant!.resName ?? ""} deleted successfully.");
+                        }
+                      },
+                      text: "Delete All Menu Items"),
+                )
+              ]
             ],
           ),
         ),

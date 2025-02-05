@@ -9,6 +9,8 @@ class FbDbService {
   static final _functions = FirebaseFunctions.instance;
   static final _restaurantCollection =
       _firestore.collection("registeredRestaurant");
+  static final _restaurantMenuCollection =
+      _firestore.collection("restaurantMenu");
   static Stream<List<Restaurant>> get restaurants =>
       _restaurantCollection.snapshots().map((event) =>
           event.docs.map((e) => Restaurant.fromJson(e.data())).toList());
@@ -29,5 +31,14 @@ class FbDbService {
       debugPrint("Error triggering cloud function: $e");
     }
     return null;
+  }
+
+  static Future<void> deleteMenuItemDocuments({required String resId}) async {
+    var querySnapshot =
+        await _restaurantCollection.where("resId", isEqualTo: resId).get();
+
+    for (var doc in querySnapshot.docs) {
+      await doc.reference.delete();
+    }
   }
 }

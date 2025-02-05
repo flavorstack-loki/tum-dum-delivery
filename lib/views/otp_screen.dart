@@ -73,10 +73,8 @@ class OtpScreen extends StatelessWidget {
               height: 10,
             ),
             ButtonWidget(
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed(RouteGenerator.personalInfoPage);
-                },
+                onPressed: () => Navigator.of(context)
+                    .pushNamed(RouteGenerator.personalInfoPage),
                 text: StringConstants.verifyOtpText)
           ],
         ),
