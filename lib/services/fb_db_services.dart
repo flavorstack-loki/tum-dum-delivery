@@ -35,7 +35,7 @@ class FbDbService {
 
   static Future<void> deleteMenuItemDocuments({required String resId}) async {
     var querySnapshot =
-        await _restaurantCollection.where("resId", isEqualTo: resId).get();
+        await _restaurantMenuCollection.where("resId", isEqualTo: resId).get();
 
     for (var doc in querySnapshot.docs) {
       await doc.reference.delete();

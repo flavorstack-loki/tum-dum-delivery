@@ -101,19 +101,16 @@ class _RestaurantMenuUploadScreenState
                   child: ButtonWidget(
                       onPressed: () async {
                         FToast().init(context);
-                        final fState = _fKey.currentState;
-                        if (fState!.validate()) {
-                          EasyLoading.show(
-                              status: 'Loading...',
-                              maskType: EasyLoadingMaskType.black);
+                        EasyLoading.show(
+                            status: 'Loading...',
+                            maskType: EasyLoadingMaskType.black);
 
-                          await FbDbService.deleteMenuItemDocuments(
-                              resId: restaurant!.restaurantId!);
-                          EasyLoading.dismiss();
+                        await FbDbService.deleteMenuItemDocuments(
+                            resId: restaurant!.restaurantId!);
+                        EasyLoading.dismiss();
 
-                          MessageService.showSuccessMessage(
-                              "All menu item of ${restaurant!.resName ?? ""} deleted successfully.");
-                        }
+                        MessageService.showSuccessMessage(
+                            "All menu item of ${restaurant!.resName ?? ""} deleted successfully.");
                       },
                       text: "Delete All Menu Items"),
                 )
