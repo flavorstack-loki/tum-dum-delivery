@@ -29,10 +29,17 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>tumdum_delivery_app</title>
+  <title>Tumdum Restaurant</title>
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>
+  <script>
+   if ('serviceWorker' in navigator) {
+      window.addEventListener('flutter-first-frame', function () {
+        navigator.serviceWorker.register('/flutter_service_worker.js?v=1'); 
+      });
+    }
+</script>
 </body>
 </html>

@@ -1,1 +1,60 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"tumdum-delivery-app","appId":"1:796930731185:android:af66a8f212c1766506c690","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"tumdum-delivery-app","appId":"1:796930731185:ios:ebf8ef469017010506c690","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"tumdum-delivery-app","configurations":{"android":"1:796930731185:android:af66a8f212c1766506c690","ios":"1:796930731185:ios:ebf8ef469017010506c690"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "tumdum-delivery-app",
+          "appId": "1:796930731185:android:af66a8f212c1766506c690",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "tumdum-delivery-app",
+          "appId": "1:796930731185:ios:ebf8ef469017010506c690",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "tumdum-delivery-app",
+          "configurations": {
+            "android": "1:796930731185:android:af66a8f212c1766506c690",
+            "ios": "1:796930731185:ios:ebf8ef469017010506c690",
+            "web": "1:796930731185:web:08979d6b0bcc9a1406c690"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "site": "tumdum-restaurant-admin",
+    "public": "build/web"
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint"
+      ]
+    }
+  ],
+  "emulators": {
+    "functions": {
+      "port": 5001
+    },
+    "ui": {
+      "enabled": true
+    },
+    "singleProjectMode": true
+  }
+}
