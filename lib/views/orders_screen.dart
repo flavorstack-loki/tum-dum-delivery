@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tumdum_delivery_app/model/customer_order.dart';
 import 'package:tumdum_delivery_app/util/string_constants.dart';
 import 'package:tumdum_delivery_app/util/style.dart';
 import 'package:tumdum_delivery_app/widget/order_card_widget.dart';
@@ -8,6 +10,8 @@ class OrdersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final orderList = context.watch<List<CustomerOrder>>().toList();
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -18,8 +22,10 @@ class OrdersScreen extends StatelessWidget {
       ),
       body: ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 10),
-        itemCount: 10,
-        itemBuilder: (context, index) => const OrderCardWidget(),
+        itemCount: orderList.length,
+        itemBuilder: (context, index) => OrderCardWidget(
+          order: orderList[index],
+        ),
       ),
     );
   }

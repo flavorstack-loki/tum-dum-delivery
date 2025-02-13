@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 import 'package:tumdum_delivery_app/gen/assets.gen.dart';
+import 'package:tumdum_delivery_app/main.dart';
 import 'package:tumdum_delivery_app/navigation/routes.dart';
+import 'package:tumdum_delivery_app/services/fb_db_services.dart';
+import 'package:tumdum_delivery_app/services/message_service.dart';
 import 'package:tumdum_delivery_app/util/string_constants.dart';
 import 'package:tumdum_delivery_app/widget/button_widget.dart';
 import 'package:tumdum_delivery_app/widget/text_field.dart';
 
-import '../services/fb_auth_service.dart';
-import '../services/message_service.dart';
 import '../util/style.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -19,7 +19,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fKey = GlobalKey<FormState>();
-    String phoneNumber = "";
+    String email = "";
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -48,50 +48,38 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               TextFieldWidget(
-                isPhone: true,
-                onSaved: (p0) => phoneNumber = p0 ?? "",
-                hintText: StringConstants.enterNumber,
-              ),
-              RichText(
-                  text: TextSpan(
-                      style: GoogleFonts.plusJakartaSans(
-                        color: Colors.black,
-                      ),
-                      text: StringConstants.termsText1,
-                      children: const [
-                    TextSpan(
-                        text: StringConstants.termsText2,
-                        style: TextStyle(color: Colors.blue)),
-                    TextSpan(text: StringConstants.termsText3),
-                    TextSpan(
-                        text: StringConstants.termsText4,
-                        style: TextStyle(color: Colors.blue))
-                  ])),
+                  onSaved: (p0) => email = p0 ?? "", hintText: "Email"),
               ButtonWidget(
                   onPressed: () async {
                     FToast().init(context);
                     final fState = fKey.currentState;
                     if (fState!.validate()) {
-                      context.loaderOverlay.show();
                       fState.save();
-                      await FbAuthService.verifyPhoneNumber(
-                          onVerificationFailed: () {
+                      context.loaderOverlay.show();
+                      final restaurantUser =
+                          await FbDbService.getRestaurantByUid(email);
+                      if (context.mounted) {
+                        if (restaurantUser != null) {
+                          final res = await Future.wait([
+                            sp.setString(StringConstants.restaurantIdKeyText,
+                                restaurantUser.restaurantId ?? ""),
+                            FbDbService.updateRestaurantUserDetail(
+                                restaurantUser)
+                          ]);
+                          if (context.mounted) {
                             context.loaderOverlay.hide();
-                            MessageService.showErrorMessage(
-                                StringConstants.otpErrorText);
-                          },
-                          phoneNumber: "+91$phoneNumber",
-                          codeSent: (verificationId) {
-                            context.loaderOverlay.hide();
-                            MessageService.showSuccessMessage(
-                                StringConstants.otpSuccessText);
-                            Navigator.of(context).pushNamed(
-                                RouteGenerator.otpPage,
-                                arguments: verificationId);
-                          });
+                            Navigator.of(context)
+                                .pushNamed(RouteGenerator.homePage);
+                          }
+                        } else {
+                          context.loaderOverlay.hide();
+                          MessageService.showErrorMessage(
+                              "Restaurant data doesn't exists.Please check the email and try again");
+                        }
+                      }
                     }
                   },
-                  text: StringConstants.sendotpText),
+                  text: "Login"),
             ],
           ),
         ),

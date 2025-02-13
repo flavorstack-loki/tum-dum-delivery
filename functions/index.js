@@ -1,39 +1,68 @@
-import {onCall} from "firebase-functions/v2/https";
-import {getFirestore} from "firebase-admin/firestore";
+import * as functions from "firebase-functions";
 import * as admin from "firebase-admin/app";
-
+import {getFirestore} from "firebase-admin/firestore";
+import {getMessaging} from "firebase-admin/messaging";
 admin.initializeApp();
-const firestore = getFirestore();
-export const processMenuItems = onCall(async (request) => {
-  const data = request.data;
-  // Validate input parameters
-  if (!data || !data.restaurantId) {
-    throw new Error("Restaurant ID is required.");
+const db = getFirestore();
+
+export const onNewOrderCreated = functions.firestore.onDocumentCreated("customerOrders/{orderId}", async (event) => {
+  const snapshot = event.data;
+  if (!snapshot) {
+    console.log("No data in snapshot");
+    return;
   }
-  if (!data.menuJson) {
-    throw new Error("Menu JSON data is required.");
+
+  const orderData = snapshot.data();
+  if (!orderData || !orderData.res_id) {
+    console.log("Missing restaurantId in order data");
+    return;
   }
+
   try {
-    const jsonData = JSON.parse(data.menuJson);
+    // Find the restaurant document based on restaurantId
+    const restaurantQuery = await db
+        .collection("signedUpRestaurant")
+        .where("resturantId", "==", orderData.res_id)
+        .limit(1)
+        .get();
 
-    if (!Array.isArray(jsonData)) {
-      throw new Error("Invalid JSON format. Expected an array of menu items.");
+    if (restaurantQuery.empty) {
+      console.log("No matching restaurant found for restaurantId:", orderData.res_id);
+      return;
     }
-    const batch = firestore.batch();
-    const menuCollection= firestore.collection("restaurantMenu");
 
-    jsonData.forEach((menuItem) => {
-      const menuRef =menuCollection.doc();
-      menuItem.id = menuRef.id; // Assign document ID to the id field
-      menuItem.resId=data.restaurantId;
-      batch.set(menuRef, menuItem);
-    });
+    const restaurantDoc = restaurantQuery.docs[0];
+    const restaurantData = restaurantDoc.data();
+    const deviceToken = restaurantData.deviceToken;
 
-    await batch.commit();
-    console.log("Menu items processed and uploaded successfully.");
-    return {success: true, message: "Menu items processed and uploaded successfully."};
+    if (!deviceToken) {
+      console.log("No device token found for restaurantId:", orderData.resturantId);
+      return;
+    }
+
+    // Prepare the notification payload
+    const payload = {
+      notification: {
+        title: "You have received an order 🔔",
+        body: "Please open the app to view the order details",
+      },
+      token: deviceToken,
+      android: {
+        notification: {
+          channel_id: "high_importance_channel",
+        },
+      },
+      data: {
+        click_action: "FLUTTER_NOTIFICATION_CLICK",
+      },
+    };
+
+    // Send notification
+    await getMessaging().send(payload);
+    console.log(restaurantData.resturantId);
+    console.log("Notification sent successfully to:", restaurantData.userName);
   } catch (error) {
-    console.error("Error processing menu items:", error);
-    throw new Error("Failed to process menu items. " + error.message);
+    console.error("Error sending notification:", error);
   }
 });
+

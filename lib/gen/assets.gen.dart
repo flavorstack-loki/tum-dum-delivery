@@ -16,6 +16,16 @@ class $AssetsImagesGen {
   $AssetsImagesSplashGen get splash => const $AssetsImagesSplashGen();
 }
 
+class $AssetsSoundsGen {
+  const $AssetsSoundsGen();
+
+  /// File path: assets/sounds/notification_sound.mp3
+  String get notificationSound => 'assets/sounds/notification_sound.mp3';
+
+  /// List of all assets
+  List<String> get values => [notificationSound];
+}
+
 class $AssetsImagesSplashGen {
   const $AssetsImagesSplashGen();
 
@@ -31,6 +41,7 @@ class Assets {
   Assets._();
 
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsSoundsGen sounds = $AssetsSoundsGen();
 }
 
 class AssetGenImage {

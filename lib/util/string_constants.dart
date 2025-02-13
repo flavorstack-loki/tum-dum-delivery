@@ -64,4 +64,6 @@ class StringConstants {
   static const submitText = "Submit";
   static const deleteText = "Delete";
   static const orderText = "Orders";
+
+  static const restaurantIdKeyText = "Email";
 }
