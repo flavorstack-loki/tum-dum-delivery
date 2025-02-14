@@ -21,23 +21,23 @@ class LoginScreen extends StatelessWidget {
     final fKey = GlobalKey<FormState>();
     String email = "";
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        toolbarHeight: 300,
-        automaticallyImplyLeading: false,
-        flexibleSpace: Image.asset(
-          Assets.images.splash.logo.path,
-          width: double.maxFinite,
-          fit: BoxFit.cover,
+      // resizeToAvoidBottomInset: false,
+
+      body: CustomScrollView(slivers: [
+        SliverAppBar(
+          toolbarHeight: 300,
+          automaticallyImplyLeading: false,
+          flexibleSpace: Image.asset(
+            Assets.images.splash.logo.path,
+            width: double.maxFinite,
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
-      body: Form(
-        key: fKey,
-        child: Padding(
+        SliverPadding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            spacing: 20,
+          sliver: SliverList.list(
+            // mainAxisSize: MainAxisSize.min,
+            // spacing: 20,
             children: [
               const Align(
                 alignment: Alignment.topLeft,
@@ -47,8 +47,20 @@ class LoginScreen extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
               ),
-              TextFieldWidget(
-                  onSaved: (p0) => email = p0 ?? "", hintText: "Email"),
+              const SizedBox(
+                height: 20,
+              ),
+              Form(
+                key: fKey,
+                child: TextFieldWidget(
+                    isEmail: true,
+                    textInputType: TextInputType.emailAddress,
+                    onSaved: (p0) => email = p0 ?? "",
+                    hintText: "Email"),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               ButtonWidget(
                   onPressed: () async {
                     FToast().init(context);
@@ -83,7 +95,7 @@ class LoginScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      ]),
     );
   }
 }

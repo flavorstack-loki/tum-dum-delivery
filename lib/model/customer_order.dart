@@ -7,7 +7,7 @@ enum OrderStatus { created, accepted, declined, failed, completed }
 enum PaymentStatus { pending, paid, unpaid }
 
 class CustomerOrder {
-  dynamic createdTime;
+  Timestamp? createdTime;
   String? customerId, orderId, resId, categoryName;
   OrderStatus orderStatus;
   PaymentStatus paymentStatus;
@@ -31,7 +31,7 @@ class CustomerOrder {
       CustomerOrder(
         createdTime: json["created_time"] == null
             ? null
-            : (json["created_time"] as Timestamp).toDate(),
+            : (json["created_time"] as Timestamp),
         customerId: json["customer_id"],
         menuTotalPrice: json["menu_total_price"],
         menuTotalQuantity: json["menu_total_quantity"],

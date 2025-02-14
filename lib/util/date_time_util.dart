@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:tumdum_delivery_app/util/color_util.dart';
 
 class DateTimeUtil {
   static final now = DateTime.now();
   static final time = TimeOfDay(hour: now.hour, minute: now.minute);
-  static Future<DateTime?> selectDate(
-    BuildContext context,
-  ) async =>
+  static final textStyle = GoogleFonts.plusJakartaSans(
+      color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600);
+  static Future<DateTime?> selectDate(BuildContext context,
+          {DateTime? initialDate}) async =>
       await showDatePicker(
           context: context,
-          initialDate: now,
+          initialDate: initialDate,
+          selectableDayPredicate: (day) => true,
           firstDate: DateTime(1950),
           lastDate: now,
           switchToInputEntryModeIcon: const Icon(FontAwesomeIcons.penToSquare),
@@ -18,9 +22,9 @@ class DateTimeUtil {
           builder: (BuildContext context, Widget? child) => Theme(
               data: ThemeData.dark(useMaterial3: false)
                   .copyWith(
-                    textTheme: const TextTheme(
-                        //      titleSmall: StyleUtil.buttonTextStyle,
-                        ),
+                    textTheme: TextTheme(
+                      titleSmall: textStyle,
+                    ),
                     colorScheme: const ColorScheme.dark(
                         //         primary: ColorUtil.goldHighlight,
                         secondary: Colors.white),
@@ -28,31 +32,28 @@ class DateTimeUtil {
                   .copyWith(
                     timePickerTheme: const TimePickerThemeData(),
                     datePickerTheme: DatePickerThemeData(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      headerBackgroundColor: Colors.white,
-                      // headerHelpStyle: StyleUtil.buttonTextStyle,
-                      // weekdayStyle: StyleUtil.buttonTextStyle,
-                      // dayStyle: StyleUtil.buttonTextStyle,
-                      // yearStyle: StyleUtil.buttonTextStyle,
-                      yearForegroundColor:
-                          WidgetStateProperty.all(Colors.white),
-                      todayForegroundColor:
-                          WidgetStateProperty.all(Colors.white),
-                      todayBorder: BorderSide.none,
-                      dayForegroundColor: WidgetStateProperty.all(Colors.white),
-                      headerForegroundColor: Colors.black,
-                      // cancelButtonStyle: ButtonStyle(
-                      //     textStyle: WidgetStatePropertyAll(StyleUtil
-                      //         .buttonTextStyle
-                      //         .copyWith(fontWeight: FontWeight.bold))),
-                      // confirmButtonStyle: ButtonStyle(
-                      //     textStyle: WidgetStatePropertyAll(StyleUtil
-                      //         .buttonTextStyle
-                      //         .copyWith(fontWeight: FontWeight.bold))
-                      //         ),
-                      //     backgroundColor: ColorUtil.buttonBgColor
-                    ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        headerBackgroundColor: Colors.white,
+                        headerHelpStyle: textStyle,
+                        weekdayStyle: textStyle,
+                        dayStyle: textStyle,
+                        yearStyle: textStyle,
+                        yearForegroundColor:
+                            WidgetStateProperty.all(Colors.white),
+                        todayForegroundColor:
+                            WidgetStateProperty.all(Colors.white),
+                        todayBorder: BorderSide.none,
+                        dayForegroundColor:
+                            WidgetStateProperty.all(Colors.white),
+                        headerForegroundColor: Colors.black,
+                        cancelButtonStyle: ButtonStyle(
+                            textStyle: WidgetStatePropertyAll(textStyle
+                                .copyWith(fontWeight: FontWeight.bold))),
+                        confirmButtonStyle: ButtonStyle(
+                            textStyle: WidgetStatePropertyAll(textStyle
+                                .copyWith(fontWeight: FontWeight.bold))),
+                        backgroundColor: ColorUtil.primaryColor),
                   ),
               child: child!));
 
@@ -64,7 +65,7 @@ class DateTimeUtil {
           return Theme(
               data: ThemeData.dark(useMaterial3: false)
                   .copyWith(
-                    //      textTheme: TextTheme(labelSmall: StyleUtil.buttonTextStyle),
+                    //      textTheme: TextTheme(labelSmall: textStyle),
                     colorScheme: const ColorScheme.dark(
                         //       primary: ColorUtil.goldHighlight,
                         secondary: Colors.white),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tumdum_delivery_app/gen/assets.gen.dart';
 import 'package:tumdum_delivery_app/model/customer.dart';
@@ -30,17 +31,30 @@ class OrderCardWidget extends StatelessWidget {
               elevation: 3,
               color: Colors.white,
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                 child: ExpansionTile(
+                  showTrailingIcon: false,
                   shape: const Border.fromBorderSide(BorderSide.none),
                   title: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     spacing: 10,
                     children: [
-                      Text(
-                        "Order No  #${order.orderId?.substring(8)}",
-                        style: Style.headlineText,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Order No  #${order.orderId?.substring(8)}",
+                            style: Style.headlineText.copyWith(fontSize: 22),
+                          ),
+                          Text(
+                            DateFormat("hh:mm a")
+                                .format(order.createdTime!.toDate()),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 18),
+                          ),
+                        ],
                       ),
                       Row(
                         spacing: 10,
@@ -72,6 +86,8 @@ class OrderCardWidget extends StatelessWidget {
                                 textAlign: TextAlign.start,
                               ),
                             ),
+                          const Spacer(),
+                          const Icon(Icons.keyboard_arrow_down)
                         ],
                       ),
                     ],

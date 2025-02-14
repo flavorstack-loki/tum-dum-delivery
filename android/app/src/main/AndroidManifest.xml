@@ -37,6 +37,17 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <service
+               android:name="com.dexterous.flutterlocalnotifications.ForegroundService"
+                android:permission="android.permission.BIND_JOB_SERVICE"
+          />
+     <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
+        <receiver android:name="com.dexterous.flutterlocalnotifications.ActionReceiver" />
+       <receiver android:name="com.dexterous.flutterlocalnotifications.NotificationDismissedReceiver" />
+       <receiver android:name="com.dexterous.flutterlocalnotifications.NotificationReceiver" />
+        <meta-data
+                   android:name="com.google.firebase.messaging.default_notification_channel_id"
+                android:value="high_importance_channel" />    
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

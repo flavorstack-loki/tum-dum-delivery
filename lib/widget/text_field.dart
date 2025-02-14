@@ -80,6 +80,7 @@ class TextFieldWidget extends StatelessWidget {
             ),
             onChanged: onChanged ?? onSaved)
         : TextFormField(
+            textInputAction: TextInputAction.done,
             maxLines: maxLines,
             textAlignVertical: TextAlignVertical.top,
             style: const TextStyle(

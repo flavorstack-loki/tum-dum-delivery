@@ -1,26 +1,37 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:audioplayers/audioplayers.dart';
-import 'package:tumdum_delivery_app/gen/assets.gen.dart';
 
 class NotificationUtil {
   static final FlutterLocalNotificationsPlugin
       _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-  static void setupLocalNotifications() {
+  static Future setupLocalNotifications() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
     const InitializationSettings initializationSettings =
-        InitializationSettings(android: initializationSettingsAndroid);
+        InitializationSettings(
+            android: initializationSettingsAndroid,
+            iOS: DarwinInitializationSettings());
 
     _flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  }
+    const AndroidNotificationChannel channel = AndroidNotificationChannel(
+      'high_importance_channel', // ID
+      'High Importance Notifications', // Name (same as strings.xml)
+      description: 'Channel for important notifications', // Description
+      importance: Importance.high,
+      sound: RawResourceAndroidNotificationSound(
+          'notification_sound'), // Custom sound
+      playSound: true,
+    );
 
-  static void playCustomSound() async {
-    final player = AudioPlayer();
-    await player.play(AssetSource(
-        Assets.sounds.notificationSound)); // Add this file to assets
+    final AndroidFlutterLocalNotificationsPlugin? androidPlatformChannel =
+        _flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>();
+
+    if (androidPlatformChannel != null) {
+      await androidPlatformChannel.createNotificationChannel(channel);
+    }
   }
 
   static Future<void> showNotification(RemoteMessage message) async {
@@ -28,6 +39,7 @@ class NotificationUtil {
         AndroidNotificationDetails(
       'high_importance_channel',
       'High Importance Notifications',
+      channelDescription: "Channel for important notifications",
       importance: Importance.max,
       priority: Priority.high,
       sound: RawResourceAndroidNotificationSound(
