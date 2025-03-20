@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 
@@ -47,7 +46,7 @@ class MediaUtils {
     return pickedImagesList.map((e) => e.path).toList();
   }
 
-  static Future<File?> pickMedia(MediaSource imageSource) async {
+  static Future<Uint8List?> pickMedia(MediaSource imageSource) async {
     try {
       XFile? imageFile;
 
@@ -61,17 +60,9 @@ class MediaUtils {
               await ip.ImagePicker().pickImage(source: ip.ImageSource.gallery);
           break;
       }
-
       if (imageFile != null) {
-        var dir = await getApplicationDocumentsDirectory();
-
-        final res = await FlutterImageCompress.compressAndGetFile(
-            imageFile.path,
-            "${dir.absolute.path}${imageFile.path.substring(imageFile.path.lastIndexOf('/'))}",
-            minHeight: 800,
-            minWidth: 600,
-            quality: 80);
-        if (res != null) return File(res.path);
+        final data = await imageFile.readAsBytes();
+        return data;
       }
     } catch (e) {
       rethrow;

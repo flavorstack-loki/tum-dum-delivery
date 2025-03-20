@@ -50,7 +50,7 @@ class _ProfileImageUploadWidgetState extends State<ProfileImageUploadWidget> {
                 } else {
                   final imagePath = await ImageService.selectImage(context);
                   if (imagePath != null) {
-                    setState(() => uploadedImagePath = imagePath);
+                    //   setState(() => uploadedImagePath = imagePath);
                     widget.onUpload(uploadedImagePath);
                   }
                 }
