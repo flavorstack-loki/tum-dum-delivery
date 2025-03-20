@@ -1,68 +1,54 @@
-import * as functions from "firebase-functions";
-import * as admin from "firebase-admin/app";
-import {getFirestore} from "firebase-admin/firestore";
-import {getMessaging} from "firebase-admin/messaging";
-admin.initializeApp();
-const db = getFirestore();
+import {onRequest} from "firebase-functions/v2/https";
+import logger from "firebase-functions/logger";
+import admin from "firebase-admin";
+import {initializeApp} from "firebase-admin/app";
+import express from "express";
+import axios from "axios";
 
-export const onNewOrderCreated = functions.firestore.onDocumentCreated("customerOrders/{orderId}", async (event) => {
-  const snapshot = event.data;
-  if (!snapshot) {
-    console.log("No data in snapshot");
-    return;
+// Load environment variables in local development
+
+
+initializeApp();
+const app = express();
+app.use(express.json());
+
+
+// OTP Verification Endpoint
+app.post("/verify-otp", async (req, res) => {
+  // Securely access MSG91 Auth Key
+  const MSG91_OTP_AUTH_KEY = process.env.MSG91_OTP_AUTH_KEY;
+
+  if (!MSG91_OTP_AUTH_KEY) {
+    logger.error("Missing MSG91_OTP_AUTH_KEY. Set it using 'firebase functions:env:set'.");
+    throw new Error("MSG91_OTP_AUTH_KEY is required.");
   }
+  const {phone, otp} = req.body;
 
-  const orderData = snapshot.data();
-  if (!orderData || !orderData.res_id) {
-    console.log("Missing restaurantId in order data");
-    return;
+  if (!phone || !otp) {
+    return res.status(400).json({error: "Phone number and OTP are required."});
   }
 
   try {
-    // Find the restaurant document based on restaurantId
-    const restaurantQuery = await db
-        .collection("signedUpRestaurant")
-        .where("resturantId", "==", orderData.res_id)
-        .limit(1)
-        .get();
+    const otpResponse = await axios.post("https://api.msg91.com/api/v5/otp/verify", {
+      authkey: MSG91_OTP_AUTH_KEY,
+      mobile: phone,
+      otp: otp,
+    });
 
-    if (restaurantQuery.empty) {
-      console.log("No matching restaurant found for restaurantId:", orderData.res_id);
-      return;
+    if (otpResponse.data.type !== "success") {
+      console.log(otpResponse.data);
+      return res.status(400).json({error: otpResponse.data.message});
     }
 
-    const restaurantDoc = restaurantQuery.docs[0];
-    const restaurantData = restaurantDoc.data();
-    const deviceToken = restaurantData.deviceToken;
+    const uid = `custom:${phone}`;
+    const firebaseToken = await admin.auth().createCustomToken(uid);
 
-    if (!deviceToken) {
-      console.log("No device token found for restaurantId:", orderData.resturantId);
-      return;
-    }
-
-    // Prepare the notification payload
-    const payload = {
-      notification: {
-        title: "You have received an order 🔔",
-        body: "Please open the app to view the order details",
-      },
-      token: deviceToken,
-      android: {
-        notification: {
-          channel_id: "high_importance_channel",
-        },
-      },
-      data: {
-        click_action: "FLUTTER_NOTIFICATION_CLICK",
-      },
-    };
-
-    // Send notification
-    await getMessaging().send(payload);
-    console.log(restaurantData.resturantId);
-    console.log("Notification sent successfully to:", restaurantData.userName);
+    res.json({token: firebaseToken});
   } catch (error) {
-    console.error("Error sending notification:", error);
+    logger.error("OTP Verification Failed:", error);
+    res.status(500).json({error: "OTP verification failed"});
   }
 });
 
+// Export the function using Gen 2 format
+export const api = onRequest({region: "us-central1"}, app);
