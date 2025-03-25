@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tumdum_delivery_app/views/home_screen.dart';
 import 'package:tumdum_delivery_app/views/identity_image_upload_screen.dart';
 import 'package:tumdum_delivery_app/views/login_screen.dart';
+import 'package:tumdum_delivery_app/views/menu_edit_screen.dart';
 import 'package:tumdum_delivery_app/views/personal_info_screen.dart';
 
 import '../views/otp_screen.dart';
@@ -15,6 +16,7 @@ class RouteGenerator {
   static const String personalInfoPage = "/personalInfo";
   static const String identityDocUploadPage = "/identityDocUpload";
   static const String restaurantHomePage = "/restaurantHome";
+  static const String menuEditPage = "/menuEdit";
   static Route generateRoute(RouteSettings settings) {
     return switch (settings.name) {
       splashPage => MaterialPageRoute(
@@ -33,6 +35,8 @@ class RouteGenerator {
           builder: (context) => const IdentityImageUploadScreen()),
       restaurantHomePage => MaterialPageRoute(
           settings: settings, builder: (context) => const HomeScreen()),
+      menuEditPage => MaterialPageRoute(
+          settings: settings, builder: (context) => const MenuItemEditScreen()),
       _ => throw const FormatException("Route not found"),
     };
   }

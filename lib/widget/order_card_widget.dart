@@ -44,9 +44,11 @@ class OrderCardWidget extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "Order No  #${order.orderId?.substring(8)}",
-                            style: Style.headlineText.copyWith(fontSize: 22),
+                          Expanded(
+                            child: Text(
+                              "Order No  #${order.orderId?.substring(8)}",
+                              style: Style.headlineText.copyWith(fontSize: 22),
+                            ),
                           ),
                           Text(
                             DateFormat("hh:mm a")

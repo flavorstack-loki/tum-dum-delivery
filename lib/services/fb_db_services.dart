@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:tumdum_delivery_app/main.dart';
 import 'package:tumdum_delivery_app/model/customer.dart';
 import 'package:tumdum_delivery_app/model/restaurant.dart';
@@ -7,6 +8,7 @@ import 'package:collection/collection.dart';
 import 'package:tumdum_delivery_app/util/string_constants.dart';
 
 import '../model/customer_order.dart';
+import '../model/menu_item.dart';
 import '../model/order_menu_item.dart';
 
 class FbDbService {
@@ -18,6 +20,8 @@ class FbDbService {
       _firestore.collection("customerOrders");
   static final _orderMenuItemsCollection =
       _firestore.collection("orderMenuItems");
+  static final _restaurantMenuItemsCollection =
+      _firestore.collection("restaurantMenu");
   static final _customerCollection = _firestore.collection("registeredUser");
   static Stream<List<Restaurant>> get restaurantUsers =>
       _restaurantUserCollection.snapshots().map((event) =>
@@ -26,7 +30,7 @@ class FbDbService {
     final deviceToken = await FirebaseMessaging.instance.getToken();
     if (restaurant.deviceToken != deviceToken) {
       restaurant.deviceToken = deviceToken;
-
+      debugPrint(restaurant.restaurantId);
       await _restaurantUserCollection
           .doc(restaurant.uId)
           .update(restaurant.toJson());
@@ -53,9 +57,18 @@ class FbDbService {
           .snapshots()
           .map((event) =>
               event.docs.map((e) => OrderMenuItem.fromJson(e.data())).toList());
+  static Stream<List<MenuItem>> menuItems(String resId) =>
+      _restaurantMenuItemsCollection
+          .where("resId", isEqualTo: resId)
+          .snapshots()
+          .map((event) =>
+              event.docs.map((e) => MenuItem.fromJson(e.data())).toList());
   static Future<void> updateOrderDetail(CustomerOrder order) async =>
       await _customerOrderCollection.doc(order.orderId).update(order.toJson());
-
+  static Future<void> updateMenuItem(MenuItem menuItem) async =>
+      await _restaurantMenuItemsCollection
+          .doc(menuItem.id)
+          .update(menuItem.toJson());
   static Stream<List<Customer>> get customers =>
       _customerCollection.snapshots().map((event) =>
           event.docs.map((e) => Customer.fromJson(e.data())).toList());

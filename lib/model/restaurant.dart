@@ -26,7 +26,7 @@ class Restaurant {
       contact: json["contact"],
       email: json["email"],
       resName: json["res_name"],
-      restaurantId: json["resturantId"],
+      restaurantId: json["restaurantId"],
       deviceToken: json["deviceToken"],
       uId: json["uid"]);
 
