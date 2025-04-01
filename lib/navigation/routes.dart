@@ -4,8 +4,10 @@ import 'package:tumdum_delivery_app/views/identity_image_upload_screen.dart';
 import 'package:tumdum_delivery_app/views/login_screen.dart';
 import 'package:tumdum_delivery_app/views/menu_edit_screen.dart';
 import 'package:tumdum_delivery_app/views/personal_info_screen.dart';
+import 'package:tumdum_delivery_app/views/restaurant_profile_screen.dart';
 
 import '../views/otp_screen.dart';
+import '../views/restaurant_profile_edit_screen.dart';
 import '../views/splash_screen.dart';
 
 class RouteGenerator {
@@ -17,6 +19,8 @@ class RouteGenerator {
   static const String identityDocUploadPage = "/identityDocUpload";
   static const String restaurantHomePage = "/restaurantHome";
   static const String menuEditPage = "/menuEdit";
+  static const String restaurantProfilePage = "restaurantProfilePage";
+  static const String restaurantProfileEditPage = "restaurantProfileEditPage";
   static Route generateRoute(RouteSettings settings) {
     return switch (settings.name) {
       splashPage => MaterialPageRoute(
@@ -37,6 +41,12 @@ class RouteGenerator {
           settings: settings, builder: (context) => const HomeScreen()),
       menuEditPage => MaterialPageRoute(
           settings: settings, builder: (context) => const MenuItemEditScreen()),
+      restaurantProfilePage => MaterialPageRoute(
+          settings: settings,
+          builder: (context) => const RestaurantProfileScreen()),
+      restaurantProfileEditPage => MaterialPageRoute(
+          settings: settings,
+          builder: (context) => const RestaurantProfileEditScreen()),
       _ => throw const FormatException("Route not found"),
     };
   }

@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tumdum_delivery_app/model/customer.dart';
 import 'package:tumdum_delivery_app/model/customer_order.dart';
 import 'package:tumdum_delivery_app/model/restaurant.dart';
+import 'package:tumdum_delivery_app/model/restaurant_user.dart';
 import 'package:tumdum_delivery_app/navigation/routes.dart';
 
 import 'services/fb_db_services.dart';
@@ -33,8 +34,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        StreamProvider<List<Restaurant>>.value(
+        StreamProvider<List<RestaurantUser>>.value(
             value: FbDbService.restaurantUsers, initialData: const []),
+        StreamProvider<List<Restaurant>>.value(
+            value: FbDbService.restaurants, initialData: const []),
         StreamProvider<List<CustomerOrder>>.value(
             value: FbDbService.customerOrders, initialData: const []),
         StreamProvider<List<Customer>>.value(
@@ -47,11 +50,11 @@ class MyApp extends StatelessWidget {
             return Center(
               child: Platform.isAndroid
                   ? const CircularProgressIndicator(
-                      color: Color(0xff78192D),
+                      color: Color(0xff00008B),
                     )
                   : const CupertinoActivityIndicator(
                       radius: 25,
-                      color: Color(0xff78192D),
+                      color: Color(0xff00008B),
                     ),
             );
           },
@@ -63,7 +66,7 @@ class MyApp extends StatelessWidget {
             onGenerateRoute: RouteGenerator.generateRoute,
             theme: ThemeData(
                 colorScheme:
-                    ColorScheme.fromSeed(seedColor: const Color(0xff78192D)),
+                    ColorScheme.fromSeed(seedColor: const Color(0xff00008B)),
                 useMaterial3: true,
                 listTileTheme: ListTileThemeData(
                     titleTextStyle: GoogleFonts.plusJakartaSans(

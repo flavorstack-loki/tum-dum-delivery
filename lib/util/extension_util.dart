@@ -10,3 +10,17 @@ extension CapitiliseandSplit on String {
     return parts.length > 1 ? '$firstPart $rest' : firstPart;
   }
 }
+
+extension StringValidator on String {
+  bool get isValidUrl {
+    final urlRegExp = RegExp(
+      r'^(https?:\/\/)?' // Optional http or https
+      r'([\w.-]+)' // Domain or IP
+      r'(\.[a-zA-Z]{2,})' // Domain extension
+      r'(:\d+)?' // Optional port
+      r'(\/[^\s]*)?$', // Optional path
+      caseSensitive: false,
+    );
+    return urlRegExp.hasMatch(this);
+  }
+}

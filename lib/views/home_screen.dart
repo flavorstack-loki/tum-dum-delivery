@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tumdum_delivery_app/navigation/routes.dart';
+import 'package:tumdum_delivery_app/util/color_util.dart';
 import 'package:tumdum_delivery_app/views/menu_screen.dart';
 import 'package:tumdum_delivery_app/views/orders_screen.dart';
 
@@ -13,6 +15,22 @@ class HomeScreen extends StatelessWidget {
           appBar: AppBar(
               automaticallyImplyLeading: false,
               title: const Text("Home"),
+              actions: [
+                TextButton.icon(
+                    label: const Text(
+                      "Profile",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: ColorUtil.primaryColor),
+                    ),
+                    onPressed: () => Navigator.of(context)
+                        .pushNamed(RouteGenerator.restaurantProfilePage),
+                    icon: const Icon(
+                      Icons.person,
+                      size: 30,
+                    ))
+              ],
               bottom: const TabBar(tabs: [
                 Tab(
                   text: "Orders",

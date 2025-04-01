@@ -61,18 +61,22 @@ class MediaUtils {
               await ip.ImagePicker().pickImage(source: ip.ImageSource.gallery);
           break;
       }
-
       if (imageFile != null) {
-        var dir = await getApplicationDocumentsDirectory();
-
-        final res = await FlutterImageCompress.compressAndGetFile(
-            imageFile.path,
-            "${dir.absolute.path}${imageFile.path.substring(imageFile.path.lastIndexOf('/'))}",
-            minHeight: 800,
-            minWidth: 600,
-            quality: 80);
-        if (res != null) return File(res.path);
+        return File(imageFile.path);
       }
+      // if (imageFile != null) {
+      //   var dir = await getApplicationDocumentsDirectory();
+
+      //   final res = await FlutterImageCompress.compressAndGetFile(
+      //       imageFile.path,
+      //       "${dir.absolute.path}${imageFile.path.substring(imageFile.path.lastIndexOf('/'))}",
+      //       format: CompressFormat.png,
+      //       minHeight: 800,
+      //       minWidth: 600,
+      //       quality: 80);
+      //   if (res != null)
+
+      //  }
     } catch (e) {
       rethrow;
     }

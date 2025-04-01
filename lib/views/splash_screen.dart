@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tumdum_delivery_app/main.dart';
 import 'package:tumdum_delivery_app/navigation/routes.dart';
-import 'package:tumdum_delivery_app/util/color_util.dart';
 import 'package:tumdum_delivery_app/util/string_constants.dart';
 
 import '../gen/assets.gen.dart';
@@ -30,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: ColorUtil.primaryColor,
+        backgroundColor: Colors.white,
         body: Center(
             child: Image.asset(
           Assets.images.splash.logo.path,

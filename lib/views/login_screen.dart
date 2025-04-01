@@ -70,12 +70,12 @@ class LoginScreen extends StatelessWidget {
                       context.loaderOverlay.show();
                       final restaurantUser =
                           await FbDbService.getRestaurantByUid(email);
-                      debugPrint(restaurantUser?.restaurantId);
+
                       if (context.mounted) {
                         if (restaurantUser != null) {
                           final res = await Future.wait([
                             sp.setString(StringConstants.restaurantIdKeyText,
-                                restaurantUser.restaurantId ?? ""),
+                                restaurantUser.resturantId ?? ""),
                             // FbDbService.updateRestaurantUserDetail(
                             //     restaurantUser)
                           ]);
