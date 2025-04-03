@@ -54,11 +54,11 @@ class MenuItem {
       };
   Map<String, dynamic> toMap() => {
         "categoryName": categoryName,
-        "item_description": itemDescription,
-        "item_discounted_price": itemDiscountedPrice,
-        "item_foodType": itemFoodType,
-        "item_name": itemName,
-        "item_original_price": itemOriginalPrice,
+        "itemDescription": itemDescription,
+        "itemDiscountedPrice": itemDiscountedPrice,
+        "itemFoodType": itemFoodType,
+        "itemName": itemName,
+        "itemOriginalPrice": itemOriginalPrice,
       };
   MenuItem copyWith({
     String? categoryName,
@@ -89,19 +89,19 @@ class MenuItem {
       case 'categoryName':
         categoryName = value;
         break;
-      case 'item_description':
+      case 'itemDescription':
         itemDescription = value;
         break;
-      case 'item_discounted_price':
+      case 'itemDiscountedPrice':
         itemDiscountedPrice = int.tryParse(value);
         break;
 
-      case 'item_original_price':
+      case 'itemOriginalPrice':
         itemOriginalPrice = int.tryParse(value);
-      case 'item_name':
+      case 'itemName':
         itemName = value;
         break;
-      case 'item_food_type':
+      case 'itemFoodType':
         itemFoodType = value;
         break;
     }

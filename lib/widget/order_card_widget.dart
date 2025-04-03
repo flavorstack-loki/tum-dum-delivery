@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -126,7 +127,12 @@ class OrderCardWidget extends StatelessWidget {
                         visualDensity: const VisualDensity(horizontal: -4),
                         leading: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
-                            child: Image.asset(Assets.images.splash.logo.path)),
+                            child: SvgPicture.asset(
+                              Assets.images.splash.logo,
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            )),
                         title: Text(e.itemName ?? ""),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

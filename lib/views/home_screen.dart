@@ -13,6 +13,18 @@ class HomeScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
           appBar: AppBar(
+              leadingWidth: 150,
+              leading: TextButton.icon(
+                  icon: const Icon(
+                    Icons.add,
+                    size: 25,
+                  ),
+                  onPressed: () => Navigator.of(context)
+                      .pushNamed(RouteGenerator.menuAddPage),
+                  label: const Text(
+                    "Add Menu",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  )),
               automaticallyImplyLeading: false,
               title: const Text("Home"),
               actions: [

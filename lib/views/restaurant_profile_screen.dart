@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
 import 'package:tumdum_delivery_app/main.dart';
 import 'package:tumdum_delivery_app/navigation/routes.dart';
+import 'package:tumdum_delivery_app/util/color_util.dart';
 import 'package:tumdum_delivery_app/util/extension_util.dart';
 import 'package:tumdum_delivery_app/util/string_constants.dart';
 import 'package:tumdum_delivery_app/widget/button_widget.dart';
 import 'package:tumdum_delivery_app/widget/image_widget.dart';
 import '../model/restaurant.dart';
+import '../services/fb_auth_service.dart';
 
 class RestaurantProfileScreen extends StatelessWidget {
   const RestaurantProfileScreen({super.key});
@@ -18,6 +21,27 @@ class RestaurantProfileScreen extends StatelessWidget {
         e.restaurantId == sp.getString(StringConstants.restaurantIdKeyText));
     return Scaffold(
       appBar: AppBar(
+        elevation: 2,
+        leading: IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            icon: const Icon(
+              FontAwesomeIcons.arrowLeft,
+            )),
+        actions: [
+          IconButton(
+              onPressed: () async {
+                await FbAuthService.signOut();
+                if (context.mounted) {
+                  Navigator.of(context)
+                      .pushReplacementNamed(RouteGenerator.signInPage);
+                }
+              },
+              icon: const Icon(
+                Icons.logout,
+                color: ColorUtil.primaryColor,
+                size: 30,
+              ))
+        ],
         title: const Text("Profile"),
       ),
       body: SafeArea(

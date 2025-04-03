@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 RestaurantUser restaurantUserFromJson(String str) =>
     RestaurantUser.fromJson(json.decode(str));
 
@@ -11,7 +13,7 @@ class RestaurantUser {
   String? email;
   String? resturantId;
   String? role;
-  DateTime? signUpTime;
+  Timestamp? signUpTime;
   String? uid;
   String? userName;
   String? deviceToken;
@@ -34,7 +36,7 @@ class RestaurantUser {
     String? email,
     String? resturantId,
     String? role,
-    DateTime? signUpTime,
+    Timestamp? signUpTime,
     String? uid,
     String? userName,
     String? deviceToken,
@@ -57,9 +59,7 @@ class RestaurantUser {
         email: json["email"],
         resturantId: json["resturantId"],
         role: json["role"],
-        signUpTime: json["signUpTime"] == null
-            ? null
-            : DateTime.parse(json["signUpTime"]),
+        signUpTime: json["signUpTime"],
         uid: json["uid"],
         userName: json["userName"],
         deviceToken: json["deviceToken"],
@@ -71,7 +71,7 @@ class RestaurantUser {
         "email": email,
         "resturantId": resturantId,
         "role": role,
-        "signUpTime": signUpTime?.toIso8601String(),
+        "signUpTime": signUpTime,
         "uid": uid,
         "userName": userName,
         "deviceToken": deviceToken,

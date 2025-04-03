@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:tumdum_delivery_app/main.dart';
 import 'package:tumdum_delivery_app/navigation/routes.dart';
 import 'package:tumdum_delivery_app/util/string_constants.dart';
@@ -31,8 +32,10 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
         backgroundColor: Colors.white,
         body: Center(
-            child: Image.asset(
-          Assets.images.splash.logo.path,
+            child: SvgPicture.asset(
+          Assets.images.splash.logo,
+          width: 300,
+          height: 300,
           fit: BoxFit.cover,
         )));
   }

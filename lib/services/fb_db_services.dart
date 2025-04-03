@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 import 'package:tumdum_delivery_app/main.dart';
 import 'package:tumdum_delivery_app/model/customer.dart';
 import 'package:tumdum_delivery_app/model/restaurant.dart';
@@ -35,6 +36,9 @@ class FbDbService {
   static Stream<List<Restaurant>> get restaurants =>
       _restaurantCollection.snapshots().map((event) =>
           event.docs.map((e) => Restaurant.fromJson(e.data())).toList());
+
+  static String get _createId =>
+      DateFormat('yyyyMMddHHmmssS').format(DateTime.now());
   static Future<void> updateRestaurantUserDetail(
       RestaurantUser restaurantUser) async {
     final deviceToken = await FirebaseMessaging.instance.getToken();
@@ -116,6 +120,13 @@ class FbDbService {
       await _restaurantMenuItemsCollection
           .doc(menuItem.id)
           .update(menuItem.toJson());
+  static Future<void> createMenuItem(MenuItem menuItem) async =>
+      await _restaurantMenuItemsCollection
+          .doc((menuItem
+                ..id = _createId
+                ..resId = sp.getString(StringConstants.restaurantIdKeyText))
+              .id)
+          .set(menuItem.toJson());
   static Stream<List<Customer>> get customers =>
       _customerCollection.snapshots().map((event) =>
           event.docs.map((e) => Customer.fromJson(e.data())).toList());
